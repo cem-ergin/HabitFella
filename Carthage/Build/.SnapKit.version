@@ -1,0 +1,47 @@
+{
+  "Mac" : [
+    {
+      "swiftToolchainVersion" : "5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)",
+      "hash" : "fe57612125b77d58019df00b0292f87e3fbe71340673f334abd8b90840f0f1a3",
+      "name" : "SnapKit",
+      "container" : "SnapKit.xcframework",
+      "identifier" : "macos-arm64_x86_64"
+    }
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+    {
+      "swiftToolchainVersion" : "5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)",
+      "hash" : "08ff59e84cf975adfb6eed3ea35ac1fdde192f2cea67c836c65061529b8e92cd",
+      "name" : "SnapKit",
+      "container" : "SnapKit.xcframework",
+      "identifier" : "tvos-arm64_x86_64-simulator"
+    },
+    {
+      "swiftToolchainVersion" : "5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)",
+      "hash" : "6f8ffc5c58c086cd5d21ee41bb4f94e4706c94933d2062678461164b01500f61",
+      "name" : "SnapKit",
+      "container" : "SnapKit.xcframework",
+      "identifier" : "tvos-arm64"
+    }
+  ],
+  "commitish" : "5.6.0",
+  "iOS" : [
+    {
+      "swiftToolchainVersion" : "5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)",
+      "hash" : "33e6c8a69943e12ea863496851b67b8ad3327233258dff0a8149ca77bae983d6",
+      "name" : "SnapKit",
+      "container" : "SnapKit.xcframework",
+      "identifier" : "ios-arm64_i386_x86_64-simulator"
+    },
+    {
+      "swiftToolchainVersion" : "5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)",
+      "hash" : "9b2f0577b58c090447ad63d5be25172793874ebe0c9ad224257eff9f035bc8e1",
+      "name" : "SnapKit",
+      "container" : "SnapKit.xcframework",
+      "identifier" : "ios-arm64_armv7"
+    }
+  ]
+}

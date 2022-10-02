@@ -2,35 +2,98 @@
 //  HabitFellaTests.swift
 //  HabitFellaTests
 //
-//  Created by CTW01856-Admin on 14/06/2022.
+//  Created by Cem Ergin on 14/06/2022.
 //
 
 import XCTest
+import RealmSwift
 @testable import HabitFella
 
-class HabitFellaTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+class ViewControllerTest: XCTestCase {
+    let realmPath = URL(fileURLWithPath: "...")
+    
+    func test_rendersNavigationBar () {
+        let sut = ViewController()
+        _ = sut.view
+        XCTAssertTrue(sut.view.subviews.contains(sut.navigationBar))
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func test_rendersRightBarButtonItem_InNavigationBar () {
+        let sut = ViewController()
+        _ = sut.view
+        XCTAssertTrue(sut.navigationBar!.items!.first!.rightBarButtonItem != nil)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func test_rendersHomePageTitle_InNavigationBar () {
+        let sut = ViewController()
+        _ = sut.view
+        XCTAssertEqual(sut.navigationBar!.items!.first!.title, "Home Page")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    
+    func test_rendersTableView () {
+        let sut = ViewController()
+        _ = sut.view
+        XCTAssertTrue(sut.view.subviews.contains(sut.tableView))
+    }
+    
+    func test_withNoneRealmData_tableView_ShouldContainZeroItem () {
+        let testRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: UUID().uuidString))
+        let sut = ViewController()
+        sut.realm = testRealm
+        _ = sut.view
+        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
+    }
+   
+    func test_withOneRealmData_tableView_ShouldContainOneItem () {
+        let testRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: UUID().uuidString))
+        let sut = ViewController()
+        sut.realm = testRealm
+        
+        let habit = Habit(value: ["name": "habit"])
+        
+        try! testRealm.write {
+            testRealm.add(habit)
         }
+        
+        _ = sut.view
+        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
     }
-
+   
+    func test_withThreeRealmData_tableView_ShouldContainThreeItem () {
+        let testRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: UUID().uuidString))
+        let sut = ViewController()
+        sut.realm = testRealm
+        
+        let habitOne = Habit(value: ["name": "habitOne"])
+        let habitTwo = Habit(value: ["name": "habitTwo"])
+        let habitThree = Habit(value: ["name": "habitThree"])
+        
+        try! testRealm.write {
+            testRealm.add(habitOne)
+            testRealm.add(habitTwo)
+            testRealm.add(habitThree)
+        }
+        
+        _ = sut.view
+        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 3)
+    }
+    
+    func test_withRealmData_tableView_ShouldContainNameOfHabitInCellsTextLabel () {
+        let testRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: UUID().uuidString))
+        let sut = ViewController()
+        sut.realm = testRealm
+        
+        let habitOne = Habit(value: ["name": "habitOne"])
+        
+        try! testRealm.write {
+            testRealm.add(habitOne)
+        }
+        
+        _ = sut.view
+        
+        let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
+        XCTAssertEqual(cell.textLabel?.text, String("habitOne"))
+    }
+   
 }
