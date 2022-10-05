@@ -9,9 +9,7 @@ import XCTest
 import RealmSwift
 @testable import HabitFella
 
-class ViewControllerTest: XCTestCase {
-    let realmPath = URL(fileURLWithPath: "...")
-    
+class ViewControllerTest: XCTestCase {    
     func test_rendersNavigationBar () {
         let sut = ViewController()
         _ = sut.view
@@ -30,7 +28,6 @@ class ViewControllerTest: XCTestCase {
         XCTAssertEqual(sut.navigationBar!.items!.first!.title, "Home Page")
     }
     
-    
     func test_rendersTableView () {
         let sut = ViewController()
         _ = sut.view
@@ -44,7 +41,7 @@ class ViewControllerTest: XCTestCase {
         _ = sut.view
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
     }
-   
+    
     func test_withOneRealmData_tableView_ShouldContainOneItem () {
         let testRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: UUID().uuidString))
         let sut = ViewController()
@@ -59,7 +56,7 @@ class ViewControllerTest: XCTestCase {
         _ = sut.view
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
     }
-   
+    
     func test_withThreeRealmData_tableView_ShouldContainThreeItem () {
         let testRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: UUID().uuidString))
         let sut = ViewController()
@@ -95,5 +92,15 @@ class ViewControllerTest: XCTestCase {
         let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
         XCTAssertEqual(cell.textLabel?.text, String("habitOne"))
     }
-   
+    
+    func test_NavigationBarPlusButton_ShouldCallNavigationFunc () {
+        let sut = ViewController()
+        _ = sut.view
+        
+        let button = sut.navigationBar!.items!.first!.rightBarButtonItem
+        button!.target?.sendActions(for: .touchDown)
+     
+        
+    }
+    
 }

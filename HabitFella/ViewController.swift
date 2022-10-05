@@ -16,7 +16,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        realmConfig()
+    
         if (realm == nil){
             realm = try! Realm()
         }
@@ -25,40 +26,45 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             habits.append(habit)
         }
         
-        navigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
-        self.view.addSubview(navigationBar)
-        navigationBar.translatesAutoresizingMaskIntoConstraints = true
-        navigationBar.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.leading.trailing.equalTo(view)
-        }
-        
-        let navigationItem = UINavigationItem(title: "Home Page")
+        navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController!.navigationBar.shadowImage = UIImage()
+        navigationController!.navigationBar.isTranslucent = true
+
+        navigationItem.title = "Home Page"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(navigateAddHabitView))
-        navigationBar.setItems([navigationItem], animated: true)
-        
+
         tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
         tableView.delegate = self
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navigationBar.snp.bottom)
-            make.bottom.left.right.equalTo(0)
+//            make..equalTo(navigationController!.navigationBar.snp.bottom)
+            make.top.bottom.left.right.equalTo(0)
         }
     }
     
     @objc func navigateAddHabitView() {
-        
+        let addHabitViewController = AddHabitViewController()
+        addHabitViewController.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(addHabitViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return habits.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath)
         cell.textLabel!.text = habits[indexPath.row].name
         return cell
+    }
+        
+    fileprivate func realmConfig() {
+        let config = Realm.Configuration(
+            schemaVersion: 3
+        )
+        
+        Realm.Configuration.defaultConfiguration = config
     }
 }
