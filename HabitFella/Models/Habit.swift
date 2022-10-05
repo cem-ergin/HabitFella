@@ -11,7 +11,17 @@ import RealmSwift
 
 class Habit: Object {
     @Persisted(primaryKey: true) var _id: ObjectId
-    @Persisted var name = ""
+    @Persisted var name: String
     @Persisted var isDone: Bool = false
+    @Persisted var icon: String
+    @Persisted var color: Color?
+    @Persisted var tags: List<String>
+    @Persisted var goalCount: Int
+    @Persisted var goalUnit: String
+    @Persisted var goalFrequency: FrequencyType.RawValue?
+    @Persisted var reminderTime: Time?
+    @Persisted var reminderMessage: String
+    @Persisted var startDate: Date
+    @Persisted var endDate: Date
 }
 
